@@ -13,9 +13,9 @@ html, body{
 }
 body {
   width: 100vw;
-  background: white;
+  background: rgb(var(--background));
   font-family: Poppins, sans-serif;
-  color: rgb(var(--color));
+  color: rgb(var(--text-color));
   overflow-x: hidden;  
 }
 a{
@@ -33,4 +33,23 @@ input{
 }
 input:focus{
   box-shadow: 0 0 10px 1px rgb(121 121 121 / 0.4);
+}
+
+.transparentPokeball{
+  position: absolute;
+  height: 200px;
+  right: -70px;
+  top: -80px;
+  opacity: 0.33;
+  z-index: 0;
+  filter: brightness(0.5);
+  z-index: 0;
+}
+
+:root{
+  --background: 255, 255, 255;
+  --text-color: 0, 0, 0;
+
+  // --background: 0, 0, 0;
+  // --text-color: 255, 255, 255;
 }

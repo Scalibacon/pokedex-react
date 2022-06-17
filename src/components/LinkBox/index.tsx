@@ -5,17 +5,19 @@ import { CSSProperties } from 'react';
 interface LinkBoxProps {
   mainText: string,
   color: string,
+  url: string,
   type1?: string,
-  type2?: string
+  type2?: string,
+  image?: string
 }
 
 const LinkBox = (props: LinkBoxProps) => {
   return (
-    <div className={styles.linkBox} style={{ "--background-color": props.color} as CSSProperties}>
+    <a href={props.url} className={styles.linkBox} style={{ "--background-color": props.color} as CSSProperties}>
       <img src={ImgPokeball} alt="Transparent Pokeball"/>
 
       <p className={styles.name}>{ props.mainText }</p>      
-    </div>
+    </a>
   )
 }
 
