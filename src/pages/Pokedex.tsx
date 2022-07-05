@@ -2,7 +2,7 @@ import styles from '../styles/Pokedex.module.scss';
 import UpperButtons from '../components/UpperButtons';
 import { useEffect, useState, } from 'react';
 import useFetchPokemons from '../hooks/useFetchPokemons';
-import LinkBox from '../components/LinkBox';
+import PokeCard from '../components/PokeCard';
 import { getPokemonColor } from '../utils/colorUtils'
 
 interface PokemonListResume {
@@ -16,7 +16,7 @@ interface PokemonListResume {
 const Pokedex = () => {  
   const [pokemonList, setPokemonList] = useState<PokemonListResume[]>([]); 
 
-  const { loading, error, data } = useFetchPokemons({ offset: 0, limit: 20 });
+  const { loading, error, data } = useFetchPokemons({ offset: 0, limit: 40 });
 
   useEffect( () => {
     const pokeArray = data?.pokemon_v2_pokemon.map( (poke: any) => {
@@ -32,9 +32,7 @@ const Pokedex = () => {
     if(pokeArray) setPokemonList(pokeArray);
 
     console.log('pokearray', pokeArray);
-  }, [data]);
-
-  
+  }, [data]);  
   
   return(
     <div className={styles.pokedexWrapper}> 
@@ -43,8 +41,9 @@ const Pokedex = () => {
       <section className='cardsContainer'>
         { pokemonList.map( pokemon => {
           return (
-            <LinkBox 
+            <PokeCard 
               key={pokemon.id}
+              id={pokemon.id}
               mainText={pokemon.name} 
               image={pokemon.imageUrl}
               type1={pokemon.type1}

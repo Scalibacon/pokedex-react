@@ -1,0 +1,59 @@
+.pokeCard{
+  width: clamp(140px, 48%, 230px);
+  height: 120px;
+  // max-height: 120px !important;
+  position: relative;
+
+  padding: 15px 5px 15px 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.2rem;
+
+  border-radius: 17px;
+  background: rgb(var(--background-color));
+  box-shadow: 0 7px 10px rgba(var(--background-color), 50%);
+  color: white;
+  overflow: hidden;
+  transition: transform 0.15s ease;
+
+  &:hover{
+    transform: scale(1.08);
+  }
+
+  .name{
+    font-weight: 600;
+    font-size: 0.85rem;
+  }
+
+  h4{
+    position: absolute;
+    right: 0.5rem;
+    top: 0.5rem;
+    opacity: 0.5;
+  }
+
+  .pokeball{
+    height: 70%;
+    bottom: -0.7rem;
+    right: -0.4rem;
+    position: absolute;
+    opacity: 0.75;
+    z-index: 0;
+  }
+
+  .type{
+    padding: 0.2rem 0.4rem;
+    font-size: 0.7rem;
+    border-radius: 20px;
+    background-color: rgba(255,255,255,0.4);
+    color: rgb(255,255,255);
+  }
+
+  .pokemonImage{
+    width: 85px;      
+    position: absolute;
+    right: 0px;
+    bottom: 0px;      
+  }
+}
