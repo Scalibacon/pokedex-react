@@ -14,9 +14,13 @@ interface PokemonListResume {
 }
 
 const Pokedex = () => {  
-  const [pokemonList, setPokemonList] = useState<PokemonListResume[]>([]); 
+  const LIMIT = 40;
 
-  const { loading, error, data } = useFetchPokemons({ offset: 0, limit: 40 });
+  const [pokemonList, setPokemonList] = useState<PokemonListResume[]>([]); 
+  const [offset, setOffset] = useState(-LIMIT);
+  
+
+  const { loading, error, data } = useFetchPokemons({ offset: offset, limit: LIMIT });
 
   useEffect( () => {
     const pokeArray = data?.pokemon_v2_pokemon.map( (poke: any) => {
@@ -29,10 +33,25 @@ const Pokedex = () => {
       } as PokemonListResume;
     });
 
-    if(pokeArray) setPokemonList(pokeArray);
-
-    console.log('pokearray', pokeArray);
+    if(pokeArray) setPokemonList( (previousState) => {
+      return previousState.concat(pokeArray);
+    });
   }, [data]);  
+
+  useEffect( () => {
+    const intersectionOnserver = new IntersectionObserver( (entries) => {
+      if(!entries.some((entry) => entry.isIntersecting)) return;
+      setOffset( (previousOffset) => previousOffset + LIMIT );
+    });
+
+    const scrollMonitor = document.getElementById(styles.scrollMonitor);
+
+    if(!scrollMonitor) return;
+
+    intersectionOnserver.observe(scrollMonitor);    
+
+    return () => intersectionOnserver.disconnect();
+  }, [])
   
   return(
     <div className={styles.pokedexWrapper}> 
@@ -53,7 +72,7 @@ const Pokedex = () => {
             />
           )
         }) }
-
+        <span id={styles.scrollMonitor} />
       </section>               
     </div> 
   )
