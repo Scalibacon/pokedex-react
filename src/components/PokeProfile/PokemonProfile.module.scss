@@ -1,0 +1,109 @@
+.pokeProfileWrapper{
+  width: 100%;
+  min-height: 100vh;
+  position: fixed;
+  top: 0;
+
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  overflow-x: hidden;
+  background-color: rgb(var(--color));
+
+  z-index: 2;
+
+  .upperSection{
+    width: 100%;
+    position: relative;
+
+    padding: 2.3rem 1.4rem 0 1.4rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    .backArrow{
+      font-size: 2.1rem;
+      color: rgb(255,255,255);
+      cursor: pointer;
+    }
+
+    .transparentSquare{
+      width: 120px;
+      height: 100px;
+      left: -25px;
+      top: -20px;
+      position: absolute;
+
+      border-radius: 20px;
+      background-image: linear-gradient(to bottom, rgba(255,255,255,0.17), rgba(255,255,255,0.17), rgba(255,255,255,0.07),);
+      transform: rotate(-15deg);
+      z-index: -1;
+    }
+  }
+
+  .headerInfo{
+    padding: 0 2.3rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    color: white;
+
+    section{
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+
+      h1{
+        font-size: 2rem;
+      }
+  
+      h4{
+        font-size: 1.1rem;
+        align-self: flex-start;
+        margin-left: auto;
+        transform: translateY(15px);
+      }
+    }    
+
+    .typesContainer{
+      display: flex;
+      gap: 0.4rem;
+
+      span{
+        padding: 0.3rem 1.2rem;
+        font-size: 0.75rem;
+        border-radius: 20px;
+        background-color: rgba(255,255,255,0.25);
+      }
+    }
+
+    .imagesContainer{
+      width: 100%;
+      position: relative;
+      display: flex;
+
+      .pokeImage{
+        height: 200px;
+        margin: 0 auto;
+        z-index: 2;
+      }
+
+      .pokeball{
+        width: 175px;
+        right: -70px;
+        position: absolute;
+        opacity: 0.5;
+        z-index: -1;
+      }
+    }
+  }
+  .mainContainer{
+    width: 100%;
+    flex: 1;
+    position: relative;
+    margin-top: -50px;
+    border-radius: 20px 20px 0 0;
+    background-color: white;
+  }
+}

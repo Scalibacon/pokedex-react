@@ -3,7 +3,8 @@ import UpperButtons from '../components/UpperButtons';
 import { useEffect, useState, } from 'react';
 import useFetchPokemons from '../hooks/useFetchPokemons';
 import PokeCard from '../components/PokeCard';
-import { getPokemonColor } from '../utils/colorUtils'
+import PokemonProfile from '../components/PokeProfile';
+import { getPokemonColor } from '../utils/colorUtils';
 
 interface PokemonListResume {
   name: string,
@@ -17,10 +18,11 @@ const Pokedex = () => {
   const LIMIT = 40;
 
   const [pokemonList, setPokemonList] = useState<PokemonListResume[]>([]); 
-  const [offset, setOffset] = useState(-LIMIT);
-  
+  // bug
+  const [offset, setOffset] = useState(-LIMIT);  
+  const [pokemonId, setPokemonId] = useState(0);
 
-  const { loading, error, data } = useFetchPokemons({ offset: offset, limit: LIMIT });
+  const { data } = useFetchPokemons({ offset: offset, limit: LIMIT });
 
   useEffect( () => {
     const pokeArray = data?.pokemon_v2_pokemon.map( (poke: any) => {
@@ -55,6 +57,7 @@ const Pokedex = () => {
   
   return(
     <div className={styles.pokedexWrapper}> 
+    {pokemonId > 0 && <PokemonProfile pokeId={pokemonId} backFunction={() => { setPokemonId(0)}}/>}
 
     <UpperButtons title="Pokedex"/>
       <section className='cardsContainer'>
@@ -68,7 +71,7 @@ const Pokedex = () => {
               type1={pokemon.type1}
               type2={pokemon.type2}
               color={getPokemonColor(pokemon.type1)}
-              url='/'
+              onClick={ () => { setPokemonId(pokemon.id); console.log(pokemon.id) } }
             />
           )
         }) }
