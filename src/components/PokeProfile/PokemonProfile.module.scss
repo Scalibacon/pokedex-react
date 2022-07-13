@@ -100,10 +100,69 @@
   }
   .mainContainer{
     width: 100%;
+    padding: 0.5rem 1.7rem 2rem 1.7rem;
     flex: 1;
     position: relative;
     margin-top: -50px;
     border-radius: 20px 20px 0 0;
     background-color: white;
+
+    header{
+      display: flex;
+      flex-direction: column;
+      // gap: 1.5rem;
+
+      ul{
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.9rem;
+        list-style: none;
+
+        li{
+          cursor: pointer;
+          opacity: 0.55;
+          // background: orchid;
+          padding: 1.5rem 0;
+
+          &.active{
+            font-weight: 700;
+            opacity: 1;
+            border-bottom: solid 1px deepskyblue;
+          }
+        }
+      }
+
+      .barContainer{
+        width: 100%;
+        height: 1px;
+        margin-top: -1px;
+        background: rgb(100 100 100 / 20%);
+
+        .bar{
+          width: 17%;
+          height: 100%;
+          background: deepskyblue;
+        }
+      }
+    }
+  }
+}
+
+.contentContainer{
+  width: 100%;
+  height: 250px;
+  position: relative;
+  margin-top: 2rem;
+  background-color: lightcoral;
+
+  .page{
+    width: 100%;
+    height: 100%;
+    background-color: deepskyblue;
+    display: none;
+
+    &.active{
+      display: flex;
+    }
   }
 }

@@ -22,6 +22,7 @@ type TypePokeData = {
 const PokemonProfile = ( props: PokeProfileProps) => {
   const { data } = useFetchPokemonDetails({ pokeId: props.pokeId });
   const [ pokeInfo, setPokeInfo ] = useState<TypePokeData>();
+  const [ selectedPage, setSelectedPage ] = useState(0);
 
   useEffect( () => {
     if(!data) return;
@@ -35,8 +36,6 @@ const PokemonProfile = ( props: PokeProfileProps) => {
       type1: pokemonResult.pokemon_v2_pokemontypes[0]?.pokemon_v2_type.name,
       type2: pokemonResult.pokemon_v2_pokemontypes[1]?.pokemon_v2_type.name
     });
-
-    console.log('pokeInfo', pokeInfo);
   }, [data]);
 
   return (
@@ -62,7 +61,47 @@ const PokemonProfile = ( props: PokeProfileProps) => {
           <img src={ImgPokeball} className={styles.pokeball} alt="Transparent Pokeball"/>
         </div>        
       </section>
+
       <main className={styles.mainContainer}>
+        <header>
+          <ul>
+            <li 
+              onClick={ e => setSelectedPage(0) } 
+              className={`${selectedPage === 0 ? styles.active : ''}`}
+            >
+              About
+            </li>
+            <li 
+              onClick={ e => setSelectedPage(1) } 
+              className={`${selectedPage === 1 ? styles.active : ''}`}
+            >
+              Base Stats
+            </li>
+            <li 
+              onClick={ e => setSelectedPage(2) } 
+              className={`${selectedPage === 2 ? styles.active : ''}`}
+            >
+              Evolution
+            </li>
+            <li 
+              onClick={ e => setSelectedPage(3) } 
+              className={`${selectedPage === 3 ? styles.active : ''}`}
+            >
+              Moves
+            </li>
+          </ul>
+
+          <div className={styles.barContainer}>
+            {/* <div className={styles.bar}/> */}
+          </div>
+        </header>
+
+        <section className={styles.contentContainer}>
+          <div className={`${styles.page} ${selectedPage === 0 ? styles.active : ''}`}>About</div>
+          <div className={`${styles.page} ${selectedPage === 1 ? styles.active : ''}`}>Base Stats</div>
+          <div className={`${styles.page} ${selectedPage === 2 ? styles.active : ''}`}>Evolution</div>
+          <div className={`${styles.page} ${selectedPage === 3 ? styles.active : ''}`}>Moves</div>
+        </section>
 
       </main>
     </div>
