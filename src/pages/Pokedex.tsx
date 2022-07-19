@@ -18,13 +18,14 @@ const Pokedex = () => {
   const LIMIT = 40;
 
   const [pokemonList, setPokemonList] = useState<PokemonListResume[]>([]); 
-  // bug
-  const [offset, setOffset] = useState(-LIMIT);  
+  const [offset, setOffset] = useState(0);  
   const [pokemonId, setPokemonId] = useState(0);
 
-  const { data } = useFetchPokemons({ offset: offset, limit: LIMIT });
+  const { data, error } = useFetchPokemons({ offset: offset, limit: LIMIT });
 
   useEffect( () => {
+    if(error) return alert('Error trying to fetch pokemon list');
+    
     const pokeArray = data?.pokemon_v2_pokemon.map( (poke: any) => {
       return {
         id: poke.id,
@@ -38,11 +39,12 @@ const Pokedex = () => {
     if(pokeArray) setPokemonList( (previousState) => {
       return previousState.concat(pokeArray);
     });
-  }, [data]);  
+  }, [data, error]);  
 
   useEffect( () => {
-    const intersectionOnserver = new IntersectionObserver( (entries) => {
-      if(!entries.some((entry) => entry.isIntersecting)) return;
+    const intersectionOnserver = new IntersectionObserver( (entries) => {      
+      if(!entries.some((entry) => entry.isIntersecting) || pokemonList.length <= 0) return;
+
       setOffset( (previousOffset) => previousOffset + LIMIT );
     });
 
@@ -53,7 +55,7 @@ const Pokedex = () => {
     intersectionOnserver.observe(scrollMonitor);    
 
     return () => intersectionOnserver.disconnect();
-  }, [])
+  }, [pokemonList])
   
   return(
     <div className={styles.pokedexWrapper}> 
