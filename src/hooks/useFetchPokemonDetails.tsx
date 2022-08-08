@@ -51,6 +51,10 @@ const GET_POKEMON_LIST = gql`
             }
           }
         }
+        pokemon_v2_pokemonspeciesflavortexts(where: {language_id: {_eq: 9}}) {
+          flavor_text
+          language_id
+        }
         evolution_chain_id
         capture_rate
         gender_rate

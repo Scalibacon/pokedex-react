@@ -16,7 +16,14 @@ type TypePokeData = {
   name: string,
   type1: string,
   type2?: string,
-  imageUrl: string
+  imageUrl: string,
+
+  height: number,
+  weight: number,
+  captureRate: number,
+  eggGroups: string[],
+  abilities: string[],
+  description: string
 }
 
 const PokemonProfile = ( props: PokeProfileProps) => {
@@ -27,14 +34,22 @@ const PokemonProfile = ( props: PokeProfileProps) => {
   useEffect( () => {
     if(!data) return;
 
-    const pokemonResult = data?.pokemon_v2_pokemon[0];
+    const pokemonResult = data?.pokemon_v2_pokemon[0];  
+    console.log('pokeinfo', pokemonResult);
 
     setPokeInfo({
       id: pokemonResult.id,
       name: pokemonResult.name,
       imageUrl: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemonResult.id}.png`,
       type1: pokemonResult.pokemon_v2_pokemontypes[0]?.pokemon_v2_type.name,
-      type2: pokemonResult.pokemon_v2_pokemontypes[1]?.pokemon_v2_type.name
+      type2: pokemonResult.pokemon_v2_pokemontypes[1]?.pokemon_v2_type.name,
+
+      height: pokemonResult.height / 10,
+      weight: pokemonResult.weight / 10,
+      captureRate: pokemonResult.pokemon_v2_pokemonspecy.capture_rate,
+      eggGroups: pokemonResult.pokemon_v2_pokemonspecy.pokemon_v2_pokemonegggroups.map( (egg: any) => capitalizeFirstLetter(egg.pokemon_v2_egggroup.name)),
+      abilities: pokemonResult.pokemon_v2_pokemonabilities.map( (ability: any) => capitalizeFirstLetter(ability.pokemon_v2_ability.name)),
+      description: pokemonResult.pokemon_v2_pokemonspecy.pokemon_v2_pokemonspeciesflavortexts[0].flavor_text.replace('\f', ' ')
     });
   }, [data]);
 
@@ -97,7 +112,36 @@ const PokemonProfile = ( props: PokeProfileProps) => {
         </header>
 
         <section className={styles.contentContainer}>
-          <div className={`${styles.page} ${selectedPage === 0 ? styles.active : ''}`}>About</div>
+          <div className={`${styles.page} ${selectedPage === 0 ? styles.active : ''}`}>
+            <div>
+              <span>Species</span>
+              <p>SET_SPECIE</p>
+            </div>
+            <div>
+              <span>Height</span>
+              <p>{ pokeInfo?.height } cm</p>
+            </div>
+            <div>
+              <span>Weight</span>
+              <p>{ pokeInfo?.weight } kg</p>
+            </div>
+            <div>
+              <span>Abilites</span>
+              <p>{ pokeInfo?.abilities.join(", ").replace("-", " ") }</p>
+            </div>
+            <div>
+              <span>Egg Groups</span>
+              <p>{ pokeInfo?.eggGroups.join(", ").replace("-", " ") }</p>
+            </div>
+            <div>
+              <span>Capture Rate</span>
+              <p>{ pokeInfo?.captureRate }</p>
+            </div>
+            <h3>Description</h3>
+            <p>{ pokeInfo?.description }</p>
+          </div>
+
+
           <div className={`${styles.page} ${selectedPage === 1 ? styles.active : ''}`}>Base Stats</div>
           <div className={`${styles.page} ${selectedPage === 2 ? styles.active : ''}`}>Evolution</div>
           <div className={`${styles.page} ${selectedPage === 3 ? styles.active : ''}`}>Moves</div>
