@@ -15,9 +15,10 @@ Como deu praticamente tudo certo e já pude colocar em prática os novos conheci
 
 ## Prints
 
-<img width="450px" alt="inicial" src="./public/assets/print1.jpeg">
+<sub>Só as de celular, porque no pc o negócio fica criminoso kkkk</sub>
 <br>
-<img width="450px" alt="lista" src="./public/assets/print2.jpeg">
-<br>
-<img width="450px" alt="detalhes" src="./public/assets/print3.jpeg">
+
+<img width="300px" alt="inicial" align="left" src="./public/assets/print1.jpeg">
+<img width="300px" alt="lista" align="left" src="./public/assets/print2.jpeg">
+<img width="300px" alt="detalhes" align="left" src="./public/assets/print3.jpeg">
 <br>
