@@ -171,25 +171,62 @@
 
     &.active{
       display: flex;
-    }
-
-    div{
-      // background: coral;
-      display: flex;
-
-      span{
-        flex: 1;
-        opacity: 0.7;
-      }
-
-      p{
-        flex: 2;
-      }      
-    }
+    }    
 
     h3{
       opacity: 0.85;
       margin: 0.7rem 0 0.3rem 0;
+    }
+
+    &.about{
+      div{
+        display: flex;
+        gap: 0.7rem;
+  
+        span{
+          flex: 1;
+          opacity: 0.7;
+        }
+  
+        p{
+          flex: 2;
+        }      
+      }
+    }
+
+    &.baseStats{
+      & > div{
+        display: flex;
+        align-items: center;
+        gap: 0.7rem;
+  
+        span{
+          flex: 2;
+          opacity: 0.7;
+
+          &.statValue{
+            opacity: 1;
+            flex: 1;
+            text-align: center;
+          }
+        }
+  
+        p{
+          flex: 3;
+        }      
+      }
+
+      .barContainer{
+        flex: 5;
+        height: 3px;
+        background: rgb(200 200 200 / 0.4);
+
+        .bar{
+          width: var(--width);
+          height: 100%;
+          background: limegreen;
+        }
+      }
     }
   }
 }

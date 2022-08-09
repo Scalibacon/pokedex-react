@@ -23,13 +23,16 @@ type TypePokeData = {
   captureRate: number,
   eggGroups: string[],
   abilities: string[],
-  description: string
+  description: string,
+  stats: {base_stat: number, name: string}[]
 }
 
 const PokemonProfile = ( props: PokeProfileProps) => {
   const { data } = useFetchPokemonDetails({ pokeId: props.pokeId });
   const [ pokeInfo, setPokeInfo ] = useState<TypePokeData>();
   const [ selectedPage, setSelectedPage ] = useState(0);
+
+  const STATS_NAME = [ "HP", "Attack", "Defense", "Sp. Attack", "Sp. Def", "Speed" ];
 
   useEffect( () => {
     if(!data) return;
@@ -49,9 +52,31 @@ const PokemonProfile = ( props: PokeProfileProps) => {
       captureRate: pokemonResult.pokemon_v2_pokemonspecy.capture_rate,
       eggGroups: pokemonResult.pokemon_v2_pokemonspecy.pokemon_v2_pokemonegggroups.map( (egg: any) => capitalizeFirstLetter(egg.pokemon_v2_egggroup.name)),
       abilities: pokemonResult.pokemon_v2_pokemonabilities.map( (ability: any) => capitalizeFirstLetter(ability.pokemon_v2_ability.name)),
-      description: pokemonResult.pokemon_v2_pokemonspecy.pokemon_v2_pokemonspeciesflavortexts[0].flavor_text.replace('\f', ' ')
+      description: pokemonResult.pokemon_v2_pokemonspecy.pokemon_v2_pokemonspeciesflavortexts[0].flavor_text.replace('\f', ' '),
+
+      stats: pokemonResult.pokemon_v2_pokemonstats.map( (stat: any) => { return { base_stat: stat.base_stat, name: stat.pokemon_v2_stat.name } })
     });
   }, [data]);
+
+  function calcultarBarWidth(statValue: number, maxValue = 150){
+    if(statValue > maxValue) statValue = maxValue;
+
+    return statValue * 100 / maxValue;
+  }
+
+  function renderTotalStats(){
+    const totalStats = pokeInfo?.stats.reduce( (total, stat ) => total + stat.base_stat, 0) || 0;
+
+    return (
+      <div>
+        <span>Total</span>
+        <span className={styles.statValue}>{ totalStats }</span>
+        <div className={styles.barContainer}>
+          <div className={styles.bar} style={{ '--width': `${calcultarBarWidth(totalStats, 900)}%` } as CSSProperties }></div>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className={styles.pokeProfileWrapper} style={{ "--color": pokeInfo?.type1 ? getPokemonColor(pokeInfo?.type1) : '255,255,255'} as CSSProperties}>
@@ -112,14 +137,14 @@ const PokemonProfile = ( props: PokeProfileProps) => {
         </header>
 
         <section className={styles.contentContainer}>
-          <div className={`${styles.page} ${selectedPage === 0 ? styles.active : ''}`}>
+          <div className={`${styles.page} ${styles.about} ${selectedPage === 0 ? styles.active : ''}`}>
             <div>
               <span>Species</span>
               <p>SET_SPECIE</p>
             </div>
             <div>
               <span>Height</span>
-              <p>{ pokeInfo?.height } cm</p>
+              <p>{ pokeInfo?.height } m</p>
             </div>
             <div>
               <span>Weight</span>
@@ -142,7 +167,20 @@ const PokemonProfile = ( props: PokeProfileProps) => {
           </div>
 
 
-          <div className={`${styles.page} ${selectedPage === 1 ? styles.active : ''}`}>Base Stats</div>
+          <div className={`${styles.page} ${styles.baseStats} ${selectedPage === 1 ? styles.active : ''}`}>
+            {pokeInfo?.stats.map( (stat, index) => {
+              return (
+                <div key={stat.name}>
+                  <span>{ STATS_NAME[index] }</span>
+                  <span className={styles.statValue}>{ stat.base_stat }</span>
+                  <div className={styles.barContainer}>
+                    <div className={styles.bar} style={{ '--width': `${calcultarBarWidth(stat.base_stat)}%` } as CSSProperties }></div>
+                  </div>
+                </div>
+              )
+            })}
+            { renderTotalStats() }
+          </div>
           <div className={`${styles.page} ${selectedPage === 2 ? styles.active : ''}`}>Evolution</div>
           <div className={`${styles.page} ${selectedPage === 3 ? styles.active : ''}`}>Moves</div>
         </section>
